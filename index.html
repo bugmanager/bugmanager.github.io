@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Tendai Chikake" />
+  	<link rel="shortcut icon" href="img/favicon.png">
+  	<link rel="favicon" href="img/favicon.png">
+    <title>Zec 2018 results</title>
+    <!--<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">-->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-table.css" type="text/css">
+  
+  </head>
+    <body class="container-fluid">
+      <h4 class="lead">These are results from 10 968 polling stations</h4>
+      <div id="toolbar">
+        <div class="ml-3 pl-3">
+            you can search using a value for any of the columns. <br>
+            you can select which fields to view from <span class="glyphicon glyphicon-th"></span><br>
+            you can download the data as JSON, XML, CSV, TXT, SQL or MS-Excel from <span class="glyphicon glyphicon-export"></span>
+        </div>      
+      </div>
+      <table id="table"
+            data-toolbar="#toolbar"
+            data-search="true"
+            data-show-refresh="true"
+            data-show-toggle="true"
+            data-show-columns="true"
+            data-show-export="true"
+            data-detail-view="true"
+            data-detail-formatter="detailFormatter"
+            data-minimum-count-columns="2"
+            data-show-pagination-switch="true"
+            data-pagination="true"
+            data-id-field="id"
+            data-page-list="[10, 25, 50, 100, ALL]"
+            data-side-pagination="client"
+            data-url="resources/searchable-results.json" 
+            data-response-handler="responseHandler" class="">
+      </table>
+
+      <!--<script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="js/bootstrap-table.js"></script>
+      <script src="js/tableExport.js"></script>
+      <script src="js/bootstrap-table-export.js"></script>  
+      <script>
+        const $table = $('#table');
+        const $remove = $('#remove');
+        let selections = [];
+
+        function initTable() {
+        $table.bootstrapTable({
+          height: getHeight(),
+          columns: [
+              {
+                field: 'LOCAL_AUTHORITY',
+                title: 'LOCAL AUTHORITY',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'WARD_NO',
+                title: 'WARD NO.',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'POLLING_STATION',
+                title: 'POLLING STATION',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'STATION_CODE',
+                title: 'STATION CODE',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Busha_Joseph_Makamba_FreeZim_Congress',
+                title: 'Busha Joseph Makamba FreeZim Congress',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Chamisa_Nelson_MDC_Alliance',
+                title: 'Chamisa Nelson MDC Alliance',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Chikanga_Everisto_Washington_Rebuild_Zimbabwe',
+                title: 'Chikanga Everisto Washington Rebuild Zimbabwe',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Dzapasi_Melbah_1980_Freedom_Movement_Zimbabwe',
+                title: 'Dzapasi Melbah # 1980 Freedom Movement Zimbabwe',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Gava_Peter_Mapfumo_UDF',
+                title: 'Gava Peter Mapfumo UDF',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Hlabangana_Kwanele_RPZ',
+                title: 'Hlabangana Kwanele RPZ',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Kasiyamhuru_Blessing_ZPP',
+                title: 'Kasiyamhuru Blessing ZPP',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Khupe_Thokozani_MDC_T',
+                title: 'Khupe Thokozani MDC-T',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Madhuku_Lovemore_NCA',
+                title: 'Madhuku Lovemore NCA',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Mangoma_Elton_Steers_Coalition_of_Democrats',
+                title: 'Mangoma Elton Steers Coalition of Democrats',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Manyika_Noah_Ngoni_BZA',
+                title: 'Manyika Noah Ngoni BZA',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Mapfumo_Chiguvare_Tonderayi_Johannes_Timothy_PPPZ',
+                title: 'Mapfumo Chiguvare Tonderayi Johannes Timothy PPPZ',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'MARIYACHA_Violet_UDM',
+                title: 'MARIYACHA Violet UDM',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Mhambi_Hove_Divine_NAPDR',
+                title: 'Mhambi-Hove Divine NAPDR',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Mnangagwa_Emmerson_Dambudzo_ZANU_PF',
+                title: 'Mnangagwa Emmerson Dambudzo ZANU PF',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Moyo_Donald_Nkosana_APA',
+                title: 'Moyo Donald Nkosana APA',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Mteki_Bryn_Taurai_Independent',
+                title: 'Mteki Bryn Taurai Independent',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Mugadza_Willard_Tawonezvi_BCP',
+                title: 'Mugadza Willard Tawonezvi BCP',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Mujuru_Joice_Teurai_Ropa_PRC',
+                title: 'Mujuru Joice Teurai Ropa PRC',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Munyanduri_Tenda_Peter_NPF',
+                title: 'Munyanduri Tenda Peter NPF',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'MutinhirI_Ambrose_NPF',
+                title: 'MutinhirI Ambrose NPF',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Shumba_Kuzozvirava_Doniel_UDA',
+                title: 'Shumba Kuzozvirava Doniel UDA',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Wilson_Peter_Harry_DOP',
+                title: 'Wilson Peter Harry DOP',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Total_Votes_Rejected_',
+                title: 'Total Votes Rejected',
+                sortable: true,
+                align: 'center'
+              }, {
+                field: 'Ballot_Paper_Unaccounted_for',
+                title: 'Ballot Paper Unaccounted for',
+                sortable: true,
+                align: 'center'
+             },{
+                field: 'Total_Votes_Cast',
+                title: 'Total Votes Cast',
+                sortable: true,
+                align: 'center'
+              },{
+                field: 'Total_Valid_Votes_Cast',
+                title: 'Total Valid Votes Cast',
+                sortable: true,
+                align: 'center'
+              }
+          ]
+        });
+        // sometimes footer render error.
+        setTimeout(() => {
+          $table.bootstrapTable('resetView');
+        }, 200);
+
+        $table.on('expand-row.bs.table', (e, index, row, $detail) => {
+          if (index % 2 == 1) {
+            $detail.html('Loading from ajax request...');
+            $.get('LICENSE', res => {
+              $detail.html(res.replace(/\n/g, '<br>'));
+            });
+          }
+        });
+        $table.on('all.bs.table', (e, name, args) => {
+          console.log(name, args);
+        });
+
+        $(window).resize(() => {
+          $table.bootstrapTable('resetView', {
+            height: getHeight()
+          });
+        });
+        }
+
+
+
+        function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), ({id}) => id);
+        }
+
+        function responseHandler(res) {
+        $.each(res.rows, (i, row) => {
+          row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+        }
+
+        function detailFormatter(index, row) {
+        const html = [];
+        $.each(row, (key, value) => {
+          html.push(`<p><b>${key}:</b> ${value}</p>`);
+        });
+        return html.join('');
+        }
+
+        function operateFormatter(value, row, index) {
+        return [
+          '<a class="like" href="javascript:void(0)" title="Like">',
+          '<i class="glyphicon glyphicon-heart"></i>',
+          '</a>  ',
+          '<a class="remove" href="javascript:void(0)" title="Remove">',
+          '<i class="glyphicon glyphicon-remove"></i>',
+          '</a>'
+        ].join('');
+        }
+
+
+        function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+        }
+
+        $(() => {
+        initTable();
+        })
+      </script>
+    </body>
+</html>
