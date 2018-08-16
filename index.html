@@ -231,8 +231,18 @@
             });
           }
         });
-        $table.on('all.bs.table', (e, name, args) => {
-          console.log(name, args);
+        $table.on('load-success.bs.table', (e, name, args) => {
+          //console.log(name);
+          var columns = $table.bootstrapTable('getVisibleColumns').slice(4).map(function(candidate){
+            return {key : candidate.field , value : 0 };
+          });
+          $.each(name, function () {
+              /*for(var i in columns){
+                columns[i].value += $(name)[columns[i].key]
+              }*/
+              
+          });
+          //console.log(columns)
         });
 
         $(window).resize(() => {

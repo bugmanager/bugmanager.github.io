@@ -278,6 +278,8 @@ public class Main {
         duplicateRowsCsv.add("DISTRICT,CONSTITUENCY,LOCAL AUTHORITY,WARD NO.,POLLING STATION,STATION CODE,"+String.join(",",fields));
         searchableResultsCsv.add("DISTRICT,CONSTITUENCY,LOCAL AUTHORITY,WARD NO,POLLING STATION,STATION CODE,"+String.join(",",fields));
         searchableResultsJsonCsv.add("DISTRICT,CONSTITUENCY,LOCAL_AUTHORITY,WARD_NO,POLLING_STATION,STATION_CODE,"+String.join(",",fieldsParties).replaceAll(" ","_"));
+        Integer[] totals = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        int k = 0;
         for (File file : fList){
             duplicateRowsCsv.addAll(duplicateResults(file.getPath()));
             //countVotes(file.getPath());
@@ -285,9 +287,35 @@ public class Main {
             searchableResultsCsv.addAll(pipeNationalByPollingStation(file.getPath()));
             weirdDifferencesCsv.addAll(wildMargins(file.getPath(), 80));
             searchableResultsJsonCsv.addAll(pipeNationalByPollingStation(file.getPath()));
+
+
+            for (String a : searchableResultsJsonCsv ){
+                List<String> res = Arrays.asList(a.split(",")).subList(6,33);
+                int i;
+                if(!a.contains("DISTRICT,CONSTITUENCY")) {
+                    for (i = 0; i < 27; ++i) {
+                        try {
+                            int n;
+                            if(res.get(i).trim().isEmpty())
+                                n = 0;
+                            else
+                                n = Integer.parseInt(res.get(i));
+                            totals[i] += n;
+                        }catch (NumberFormatException e){
+                            System.out.println(a);
+                        }
+                    }
+                    if(k++ < 20) {
+                        System.out.println(res);
+                        System.out.println(Arrays.asList(totals));
+                    }
+                }
+            };
             //checkWithV11(file.getPath());
         }
-        System.out.println("Extra votes from ZEC result rows = " + extraVotes);
+        //System.out.println(Arrays.asList(totals));
+        searchableResultsJsonCsv.add("TOTALS,TOTALS,TOTALS,TOTALS," + String.join(",",Arrays.stream(totals).map(a-> a.toString()).collect(Collectors.toList())));
+        //System.out.println("Extra votes from ZEC result rows = " + extraVotes);
         try {
             Files.write(Paths.get("results/weird_differences.csv"), weirdDifferencesCsv);
             Files.write(Paths.get("results/extra-votes.csv"), extraVotesCsv);
